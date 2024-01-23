@@ -3,6 +3,16 @@ import sys
 from collections import deque
 from typing import Optional
 
+#
+# PROGRAM SETTINGS
+#
+VERSION = "0.1.0"
+DEVELOPER = "anovelforstudy"
+
+#
+# WINDOW SETTINGS
+#
+
 TITLE = "Flet Clicker"
 
 # Window size
@@ -19,8 +29,23 @@ PAGE_PADDING_LEFT = 0
 PAGE_PADDING_TOP = 0
 PAGE_PADDING_BOTTOM = 0
 
+#
+# BLOCKS SETTINGS
+#
+
 # Sidebar
 SIDEBAR_ICONS_COLOR = "white"
+
+# Statusbar
+
+# Topbar
+
+#
+# COLORS
+#
+SIDEBAR_COLOR = "#171717"
+TOPBAR_COLOR = "#2A2A2A"
+STATUSBAR_COLOR = "#2A2A2A"
 
 
 # CONFIGURATIONS FUNCTIONS

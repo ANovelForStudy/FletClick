@@ -11,7 +11,10 @@ class Sidebar(ft.UserControl):
         return ft.Container(
             ft.Column(
                 controls=[
-                    self.SidebarIcon(ft.icons.UPLOAD_FILE),
+                    self.SidebarIcon(
+                        ft.icons.UPLOAD_FILE,
+                        tooltip="Загрузить файл настроек кликера",
+                    ),
                     self.SidebarIcon(ft.icons.SAVE),
                     self.SidebarIcon(ft.icons.BAR_CHART),
                     self.SidebarIcon(ft.icons.HELP),
@@ -21,10 +24,9 @@ class Sidebar(ft.UserControl):
                 expand=True,
                 alignment=ft.MainAxisAlignment.SPACE_AROUND,
             ),
-            bgcolor=ft.colors.BLACK87,
+            bgcolor=config.SIDEBAR_COLOR,
             padding=5,
-            # expand=True,
-            # alignment=ft.alignment.center,
+            margin=0,
         )
 
     class SidebarIcon(ft.IconButton):

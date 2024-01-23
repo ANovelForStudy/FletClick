@@ -5,6 +5,7 @@ import flet as ft
 from icecream import ic
 
 import config
+from gui.main_content import MainContent
 from gui.side_bar import Sidebar
 from gui.status_bar import StatusBar
 from gui.top_bar import TopBar
@@ -23,12 +24,22 @@ class App:
         self.set_color_scheme(color_scheme_seed="yellow")
 
         self.page.add(
+            # External page container
             ft.Container(
                 ft.Row(
                     controls=[
-                        ft.Column(controls=[], expand=True),
+                        ft.Column(
+                            controls=[
+                                TopBar(),
+                                MainContent(),
+                                StatusBar(),
+                            ],
+                            expand=True,
+                            spacing=0,
+                        ),
                         Sidebar(),
-                    ]
+                    ],
+                    spacing=0,
                 ),
                 expand=True,
             )
@@ -57,8 +68,15 @@ class App:
         if color_scheme_seed is not None:
             self.page.theme = ft.Theme(color_scheme_seed=color_scheme_seed)
 
+    def set_fonts(self) -> None:
+        self.page.fonts = {"Inter": "/fonts/Inter.ttf"}
+
 
 if __name__ == "__main__":
     config.add_main_directory_to_path()
     ic(sys.path)
-    ft.app(target=App, view=ft.AppView.FLET_APP)
+    ft.app(
+        target=App,
+        view=ft.AppView.FLET_APP,
+        assets_dir="assets",
+    )
