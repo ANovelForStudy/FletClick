@@ -5,7 +5,8 @@ import flet as ft
 from icecream import ic
 
 import config
-from gui.main_content import MainContent
+from gui.main_content_first_page import MainContentFirst
+from gui.main_content_second_page import MainContentSecond
 from gui.side_bar import Sidebar
 from gui.status_bar import StatusBar
 from gui.top_bar import TopBar
@@ -21,17 +22,39 @@ class App:
 
         # Set color scheme and light mode
         self.set_light_mode()
-        self.set_color_scheme(color_scheme_seed="yellow")
+        self.set_color_scheme(color_scheme_seed="blue")
 
         self.page.add(
-            # External page container
+            # Внешний контейнер страницы
             ft.Container(
                 ft.Row(
                     controls=[
                         ft.Column(
                             controls=[
                                 TopBar(),
-                                MainContent(),
+                                ft.Tabs(
+                                    # Выбор индекса вкладки по умолчанию
+                                    selected_index=config.Pages.main_page,
+                                    animation_duration=300,
+                                    tabs=[
+                                        ft.Tab(
+                                            icon=ft.icons.POWER_SETTINGS_NEW,
+                                            text="Кликер",
+                                            content=MainContentFirst(),
+                                        ),
+                                        ft.Tab(
+                                            icon=ft.icons.ADS_CLICK,
+                                            text="Место/Тип",
+                                            content=MainContentSecond(),
+                                        ),
+                                        ft.Tab(
+                                            icon=ft.icons.SETTINGS,
+                                            text="Настройки",
+                                            # content=MainContent(),
+                                        ),
+                                    ],
+                                    expand=True,
+                                ),
                                 StatusBar(),
                             ],
                             expand=True,
@@ -42,6 +65,7 @@ class App:
                     spacing=0,
                 ),
                 expand=True,
+                padding=0,
             )
         )
 

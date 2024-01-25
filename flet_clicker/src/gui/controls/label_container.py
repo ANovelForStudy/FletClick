@@ -1,4 +1,5 @@
 import flet as ft
+from util.get_random_color_name import get_random_color_name
 
 
 class LabelContainer(ft.Container):
@@ -13,8 +14,9 @@ class LabelContainer(ft.Container):
                 bottom=0,
             )
 
+        # Изменение цвета контейнера на случайный (для отладки)
         if self.bgcolor is None:
-            self.bgcolor = "green"
+            self.bgcolor = get_random_color_name()
 
         if self.expand is None:
             self.expand = True
