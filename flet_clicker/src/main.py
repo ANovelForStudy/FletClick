@@ -5,11 +5,11 @@ import flet as ft
 from icecream import ic
 
 import config
-from gui.main_content_first_page import MainContentFirst
-from gui.main_content_second_page import MainContentSecond
-from gui.side_bar import Sidebar
-from gui.status_bar import StatusBar
-from gui.top_bar import TopBar
+from gui.blocks.side_bar import Sidebar
+from gui.blocks.status_bar import StatusBar
+from gui.blocks.top_bar import TopBar
+from gui.pages.first.first_page_main_content import MainContentFirstPage
+from gui.pages.second.second_page_main_content import MainContentSecondPage
 
 
 class App:
@@ -34,18 +34,18 @@ class App:
                                 TopBar(),
                                 ft.Tabs(
                                     # Выбор индекса вкладки по умолчанию
-                                    selected_index=config.Pages.main_page,
+                                    selected_index=config.Pages.main_clicker_settings_page,
                                     animation_duration=300,
                                     tabs=[
                                         ft.Tab(
                                             icon=ft.icons.POWER_SETTINGS_NEW,
                                             text="Кликер",
-                                            content=MainContentFirst(),
+                                            content=MainContentFirstPage(),
                                         ),
                                         ft.Tab(
                                             icon=ft.icons.ADS_CLICK,
                                             text="Место/Тип",
-                                            content=MainContentSecond(),
+                                            content=MainContentSecondPage(),
                                         ),
                                         ft.Tab(
                                             icon=ft.icons.SETTINGS,
@@ -93,12 +93,16 @@ class App:
             self.page.theme = ft.Theme(color_scheme_seed=color_scheme_seed)
 
     def set_fonts(self) -> None:
-        self.page.fonts = {"Inter": "/fonts/Inter.ttf"}
+        self.page.fonts = {
+            "Inter": "/fonts/Inter.ttf",
+        }
 
 
 if __name__ == "__main__":
     config.add_main_directory_to_path()
+
     ic(sys.path)
+
     ft.app(
         target=App,
         view=ft.AppView.FLET_APP,

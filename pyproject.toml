@@ -19,6 +19,9 @@ build-backend = "poetry.core.masonry.api"
 [tool.ruff]
 line-length = 119
 
+[tool.ruff.format]
+docstring-code-format = true
+
 [tool.ruff.lint.isort]
 known-third-party = ["icecream"]
 known-first-party = ["src", "gui", "config"]
