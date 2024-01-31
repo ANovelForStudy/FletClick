@@ -14,6 +14,10 @@ class MainContentFirstPage(ft.UserControl):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+    #
+    # ПОСТРОЕНИЕ ИНТЕРФЕЙСА
+    #
+
     def build(self):
         return ContainerWithoutIndents(
             content=ft.Column(
@@ -36,5 +40,4 @@ class MainContentFirstPage(ft.UserControl):
                 spacing=0,
             ),
             expand=True,
-            # bgcolor="yellow",
         )

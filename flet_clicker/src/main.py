@@ -24,6 +24,14 @@ class App:
         self.set_light_mode()
         self.set_color_scheme(color_scheme_seed="blue")
 
+        # Построение интерфейса приложения
+        self.build_ui()
+
+    #
+    # ПОСТРОЕНИЕ ИНТЕРФЕЙСА
+    #
+
+    def build_ui(self):
         self.page.add(
             # Внешний контейнер страницы
             ft.Container(

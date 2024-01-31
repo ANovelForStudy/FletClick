@@ -20,11 +20,39 @@ class SelectingDelayBetweenClicks(ft.UserControl):
             При запуске приложения инициализируется пустой строкой.
     """
 
+    _instance = None
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self._last_correct_delay_value: float = config.DEFAULT_DELAY_BETWEEN_CLICKS_VALUE
         self._current_delay_value: str = ""
+
+        self._observers = []
+
+    def __new__(cls, *args, **kwargs):
+        # Реализация паттерна "Синглтон"
+        if cls._instance is None:
+            cls._instance = super().__new__(cls, *args, **kwargs)
+        print(hex(id(cls._instance)))
+        return cls._instance
+
+    #
+    # РЕАЛИЗАЦИЯ ПАТТЕРНА "НАБЛЮДАТЕЛЬ"
+    #
+
+    # Добавить наблюдателя
+    def add_observer(self, observer):
+        self._observers.append(observer)
+
+    # Удалить наблюдателя
+    def remove_observer(self, observer):
+        self._observers.remove(observer)
+
+    # Уведомить наблюдателей
+    def notify_observers(self):
+        for observer in self._observers:
+            observer.update(self.last_correct_delay_value)
 
     #
     # СВОЙСТВА
@@ -33,6 +61,12 @@ class SelectingDelayBetweenClicks(ft.UserControl):
     @property
     def last_correct_delay_value(self):
         return self._last_correct_delay_value
+
+    @last_correct_delay_value.setter
+    def last_correct_delay_value(self, value):
+        self._last_correct_delay_value = value
+        # Уведомить наблюдателей
+        self.notify_observers()
 
     @property
     def current_delay_value(self):
@@ -48,14 +82,14 @@ class SelectingDelayBetweenClicks(ft.UserControl):
         Метод уменьшает значение задержки между кликами на стандартную величину изменения,
         указанную в конфигурационном файле, иначе устанавливает последнее корректное значение
         """
-        value: float = self._last_correct_delay_value
+        value: float = self.last_correct_delay_value
         new_value: float = round(value - config.DEFAULT_DELAY_BETWEEN_CLICKS_CHANGE_VALUE, 3)
 
         # Устанавливаем в поля ввода задержки и последнего корректного значения новое значение
         # Дополнительная проверка на то, что при уменьшении значения, оно не станет меньше или равно нулю
         if new_value > 0:
             self._text_field_delay_between_clicks.value = new_value
-            self._last_correct_delay_value = new_value
+            self.last_correct_delay_value = new_value
             self._text_field_delay_between_clicks.update()
 
     def increase_delay_value_between_clicks(self, e: ft.ControlEvent) -> None:
@@ -63,12 +97,12 @@ class SelectingDelayBetweenClicks(ft.UserControl):
         Метод увеличивает значение задержки между кликами на стандартную величину изменения,
         указанную в конфигурационном файле, иначе устанавливает последнее корректное значение
         """
-        value: float = self._last_correct_delay_value
+        value: float = self.last_correct_delay_value
         new_value: float = round(value + config.DEFAULT_DELAY_BETWEEN_CLICKS_CHANGE_VALUE, 3)
 
         # Устанавливаем в поля ввода задержки и последнего корректного значения новое значение
         self._text_field_delay_between_clicks.value = new_value
-        self._last_correct_delay_value = new_value
+        self.last_correct_delay_value = new_value
         self._text_field_delay_between_clicks.update()
 
     def reset_delay_value_between_clicks(self, e: ft.ControlEvent) -> None:
@@ -76,8 +110,8 @@ class SelectingDelayBetweenClicks(ft.UserControl):
         Метод устанавливает значение задержки между кликами в поле и в экземпляре класса на стандартное значение,
         указанное в конфигурационном файле
         """
-        self._last_correct_delay_value = config.DEFAULT_DELAY_BETWEEN_CLICKS_VALUE
-        self._text_field_delay_between_clicks.value = self._last_correct_delay_value
+        self.last_correct_delay_value = config.DEFAULT_DELAY_BETWEEN_CLICKS_VALUE
+        self._text_field_delay_between_clicks.value = self.last_correct_delay_value
         self._text_field_delay_between_clicks.update()
 
     # Обработка событий поля ввода значения задержки между нажатиями
@@ -108,14 +142,14 @@ class SelectingDelayBetweenClicks(ft.UserControl):
         Метод сохраняет текущее значение задержки между нажатиями из поля self._current_delay_value
         как последнее корректное значение задержки между нажатиями, приведя его к типу float
         """
-        self._last_correct_delay_value = float(self._current_delay_value)
+        self.last_correct_delay_value = float(self._current_delay_value)
 
     def set_last_correct_delay_value_in_field(self) -> None:
         """
         Метод устанавливает последнее корректное значение задержки между нажатиями в поле ввода в том случае,
         если текущее введённое пользователем значение оказывается некорректным
         """
-        self._text_field_delay_between_clicks.value = self._last_correct_delay_value
+        self._text_field_delay_between_clicks.value = self.last_correct_delay_value
 
         self._text_field_delay_between_clicks.update()
 
@@ -134,7 +168,7 @@ class SelectingDelayBetweenClicks(ft.UserControl):
             self.set_last_correct_delay_value_in_field()
 
     #
-    # ГРАФИЧЕСКИЙ ИНТЕРФЕЙС
+    # ПОСТРОЕНИЕ ИНТЕРФЕЙСА
     #
 
     def build(self):

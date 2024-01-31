@@ -2,10 +2,13 @@ import os
 import sys
 from collections import deque
 from enum import Enum, unique
-from typing import Optional
+from typing import Optional, Union
+
+# Объявление типов
+DelayValueType = Union[float, int]
 
 #
-# PROGRAM SETTINGS
+# НАСТРОЙКИ ПРОГРАММЫ
 #
 
 VERSION = "0.1.0"
@@ -13,12 +16,12 @@ VERSION = "0.1.0"
 DEVELOPER = "anovelforstudy"
 
 #
-# WINDOW SETTINGS
+# НАСТРОЙКИ ОКНА
 #
 
 TITLE = "Flet Clicker"
 
-# Window size
+# Размеры окна
 WINDOW_HEIGHT = 500
 WINDOW_WIDTH = 360
 SWITCH_SIZES = True
@@ -31,12 +34,15 @@ if SWITCH_SIZES:
 #
 
 # Значение на кнопках изменения значения погрешности рандомизации
-DEFAULT_INACCURACY_CHANGE_VALUE = 0.05
-DEFAULT_INACCURACY_VALUE = 0.5
+DEFAULT_INACCURACY_CHANGE_VALUE: DelayValueType = 0.05
+DEFAULT_INACCURACY_VALUE: DelayValueType = 0.5
 
 # Значение на кнопках изменения значения задержки между нажатиями
-DEFAULT_DELAY_BETWEEN_CLICKS_CHANGE_VALUE = 0.05
-DEFAULT_DELAY_BETWEEN_CLICKS_VALUE = 0.1
+DEFAULT_DELAY_BETWEEN_CLICKS_CHANGE_VALUE: DelayValueType = 0.05
+DEFAULT_DELAY_BETWEEN_CLICKS_VALUE: DelayValueType = 0.1
+
+# Значение задержки перед активацией кликера
+DEFAULT_DELAY_VALUE_BEFORE_CLICKER_START: DelayValueType = 0.5
 
 #
 #  PAGE SETTINGS
@@ -64,11 +70,11 @@ PAGE_PADDING_BOTTOM = 0
 # Стандартный отступ внутри блока
 DEFAULT_BLOCK_PADDING = 5
 
-# Sidebar
+# Боковая панель
 SIDEBAR_ICONS_COLOR = "white"
 
 #
-# COLORS
+# ЦВЕТА
 #
 
 # SIDEBAR_COLOR = "#171717"
@@ -78,8 +84,11 @@ TOPBAR_COLOR = "#2A2A2A"
 
 STATUSBAR_COLOR = "#2A2A2A"
 
+#
+# ФУНКЦИИ КОНФИГУРАЦИИ
+#
 
-# CONFIGURATIONS FUNCTIONS
+
 def add_main_directory_to_path(verbose: Optional[bool] = False) -> None:
     """Adds a directory with the configuration file to PYTHONPATH
 
