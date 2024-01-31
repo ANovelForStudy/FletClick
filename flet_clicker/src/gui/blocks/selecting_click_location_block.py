@@ -1,5 +1,6 @@
 import flet as ft
 
+import config
 from gui.controls.container_without_indents import ContainerWithoutIndents
 
 
@@ -51,5 +52,5 @@ class SelectingClickLocationBlock(ft.UserControl):
                 ],
                 spacing=0,
             ),
-            padding=5,
+            padding=config.DEFAULT_BLOCK_PADDING,
         )

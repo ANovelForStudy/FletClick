@@ -1,9 +1,15 @@
 import flet as ft
+from functions.clicker import Clicker
+
+import config
+from gui.controls.container_without_indents import ContainerWithoutIndents
 
 
 class StartStopBlock(ft.UserControl):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Создание объекта кликера
+        self.clicker = Clicker()
 
     def build(self):
         self._start_button = ft.ElevatedButton(
@@ -12,6 +18,8 @@ class StartStopBlock(ft.UserControl):
             color=ft.colors.WHITE,
             bgcolor=ft.colors.GREEN,
             icon=ft.icons.PLAY_ARROW_ROUNDED,
+            # События
+            on_click=self.clicker.start_clicker,
         )
 
         self._stop_button = ft.ElevatedButton(
@@ -20,9 +28,11 @@ class StartStopBlock(ft.UserControl):
             color=ft.colors.WHITE,
             bgcolor=ft.colors.RED,
             icon=ft.icons.STOP_ROUNDED,
+            # События
+            on_click=self.clicker.stop_clicker,
         )
 
-        return ft.Container(
+        return ContainerWithoutIndents(
             content=ft.Column(
                 controls=[
                     ft.Text(
@@ -36,7 +46,5 @@ class StartStopBlock(ft.UserControl):
                 spacing=0,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             ),
-            margin=0,
-            padding=5,
-            scale=1,
+            padding=config.DEFAULT_BLOCK_PADDING,
         )

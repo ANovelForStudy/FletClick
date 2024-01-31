@@ -1,5 +1,7 @@
 import flet as ft
 
+import config
+
 
 class SelectingClickerModeBlock(ft.UserControl):
     def __init__(self, *args, **kwargs):
@@ -94,6 +96,5 @@ class SelectingClickerModeBlock(ft.UserControl):
                 ],
                 spacing=4,
             ),
-            # bgcolor="green",
-            padding=5,
+            padding=config.DEFAULT_BLOCK_PADDING,
         )

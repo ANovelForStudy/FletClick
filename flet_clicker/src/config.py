@@ -58,8 +58,11 @@ PAGE_PADDING_TOP = 0
 PAGE_PADDING_BOTTOM = 0
 
 #
-# BLOCKS SETTINGS
+# НАСТРОЙКИ БЛОКОВ ИНТЕРФЕЙСА
 #
+
+# Стандартный отступ внутри блока
+DEFAULT_BLOCK_PADDING = 5
 
 # Sidebar
 SIDEBAR_ICONS_COLOR = "white"

@@ -201,5 +201,5 @@ class SelectingDelayBetweenClicks(ft.UserControl):
                 ],
                 spacing=2,
             ),
-            padding=5,
+            padding=config.DEFAULT_BLOCK_PADDING,
         )
