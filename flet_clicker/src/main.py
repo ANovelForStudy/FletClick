@@ -22,7 +22,7 @@ class App:
 
         # Set color scheme and light mode
         self.set_light_mode()
-        self.set_color_scheme(color_scheme_seed="blue")
+        self.set_color_scheme(color_scheme_seed=config.COLOR_SCHEME_SEED)
 
         # Построение интерфейса приложения
         self.build_ui()
@@ -31,7 +31,7 @@ class App:
     # ПОСТРОЕНИЕ ИНТЕРФЕЙСА
     #
 
-    def build_ui(self):
+    def build_ui(self) -> None:
         self.page.add(
             # Внешний контейнер страницы
             ft.Container(
@@ -79,13 +79,13 @@ class App:
 
         self.page.update()
 
-    def set_window_size(self):
+    def set_window_size(self) -> None:
         self.page.window_height = config.WINDOW_HEIGHT
         self.page.window_width = config.WINDOW_WIDTH
         self.page.window_resizable = False
         self.page.window_maximizable = False
 
-    def set_page_padding(self):
+    def set_page_padding(self) -> None:
         self.page.padding = ft.Padding(
             left=config.PAGE_PADDING_LEFT,
             right=config.PAGE_PADDING_RIGHT,
@@ -109,7 +109,8 @@ class App:
 if __name__ == "__main__":
     config.add_main_directory_to_path()
 
-    ic(sys.path)
+    # Вывод PYTHONPATH для проверки добавления главной директории
+    # ic(sys.path)
 
     ft.app(
         target=App,

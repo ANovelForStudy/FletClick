@@ -2,7 +2,7 @@ import flet as ft
 
 from gui.blocks.delay_randomization_between_clicks_block import DelayRandomizationBetweenClicksBlock
 from gui.blocks.selecting_click_location_block import SelectingClickLocationBlock
-from gui.blocks.selecting_type_of_clicks_block import SelectingTypeOfClicksBlock
+from gui.blocks.selecting_type_of_clicks_block import SelectingTypeOfClicks
 from gui.controls.container_without_indents import ContainerWithoutIndents
 
 
@@ -17,7 +17,7 @@ class MainContentSecondPage(ft.UserControl):
                     ft.Row(
                         controls=[
                             SelectingClickLocationBlock(),
-                            SelectingTypeOfClicksBlock(),
+                            SelectingTypeOfClicks(),
                         ],
                         spacing=3,
                     ),

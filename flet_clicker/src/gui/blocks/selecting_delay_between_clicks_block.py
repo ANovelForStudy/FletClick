@@ -1,12 +1,16 @@
+from typing import List
+
 import flet as ft
 
 import config
+from common.observer import Observer, Subject
+from common.singleton import Singleton
 from gui.controls.container_without_indents import ContainerWithoutIndents
 
 
-class SelectingDelayBetweenClicks(ft.UserControl):
+class SelectingDelayBetweenClicks(ft.UserControl, Singleton, Subject):
     """
-    Класс отвечает отрисовку и обработку событий блока управления задержкой между нажатиями.
+    Класс (синглтон) отвечает за отрисовку и обработку событий блока управления задержкой между нажатиями.
 
     Поля:
         self._last_correct_delay_value (float): Последнее корректное значение из текстового поля ввода
@@ -20,57 +24,53 @@ class SelectingDelayBetweenClicks(ft.UserControl):
             При запуске приложения инициализируется пустой строкой.
     """
 
-    _instance = None
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self._last_correct_delay_value: float = config.DEFAULT_DELAY_BETWEEN_CLICKS_VALUE
         self._current_delay_value: str = ""
 
-        self._observers = []
-
-    def __new__(cls, *args, **kwargs):
-        # Реализация паттерна "Синглтон"
-        if cls._instance is None:
-            cls._instance = super().__new__(cls, *args, **kwargs)
-        print(hex(id(cls._instance)))
-        return cls._instance
+        # Список подписчиков
+        self._observers: List[Observer] = []
 
     #
     # РЕАЛИЗАЦИЯ ПАТТЕРНА "НАБЛЮДАТЕЛЬ"
     #
 
-    # Добавить наблюдателя
-    def add_observer(self, observer):
+    def add_observer(self, observer: Observer) -> None:
+        print(f"[INFO] {self.__class__.__name__} : Attached an observer {observer}")
         self._observers.append(observer)
 
-    # Удалить наблюдателя
-    def remove_observer(self, observer):
+    def remove_observer(self, observer: Observer) -> None:
         self._observers.remove(observer)
 
-    # Уведомить наблюдателей
-    def notify_observers(self):
+    def notify_observers(self) -> None:
+        print(f"[INFO] {self.__class__.__name__} : Notifying observers:")
         for observer in self._observers:
-            observer.update(self.last_correct_delay_value)
+            print(f"...[INFO] Observer {observer} was notified")
+            observer.update(self.last_correct_delay_value, self)
 
     #
     # СВОЙСТВА
     #
 
     @property
-    def last_correct_delay_value(self):
+    def last_correct_delay_value(self) -> float:
         return self._last_correct_delay_value
 
     @last_correct_delay_value.setter
-    def last_correct_delay_value(self, value):
+    def last_correct_delay_value(self, value) -> None:
         self._last_correct_delay_value = value
         # Уведомить наблюдателей
         self.notify_observers()
 
     @property
-    def current_delay_value(self):
+    def current_delay_value(self) -> float:
         return self._current_delay_value
+
+    @current_delay_value.setter
+    def current_delay_value(self, value: str) -> None:
+        self._current_delay_value = value
 
     #
     # ОБРАБОТКА СОБЫТИЙ
@@ -83,6 +83,7 @@ class SelectingDelayBetweenClicks(ft.UserControl):
         указанную в конфигурационном файле, иначе устанавливает последнее корректное значение
         """
         value: float = self.last_correct_delay_value
+        print("HI")
         new_value: float = round(value - config.DEFAULT_DELAY_BETWEEN_CLICKS_CHANGE_VALUE, 3)
 
         # Устанавливаем в поля ввода задержки и последнего корректного значения новое значение
@@ -122,7 +123,7 @@ class SelectingDelayBetweenClicks(ft.UserControl):
         число будет больше нуля (задержка не может быть ниже или равна нулю)
         """
         try:
-            value_to_check = float(self._current_delay_value)
+            value_to_check = float(self.current_delay_value)
             if value_to_check <= 0:
                 return False
         except ValueError:
@@ -135,14 +136,14 @@ class SelectingDelayBetweenClicks(ft.UserControl):
         Метод сохраняет текущее введённое значение задержки между нажатиями и устанавливает его в поле self._current_inaccuracy_value,
         а также заменяет в нём запятые на точки для удобства дальнейшей обработки и предоставления возможности использования запятой в качестве отделителя дробной части числа
         """
-        self._current_delay_value = str(self._text_field_delay_between_clicks.value).replace(",", ".")
+        self.current_delay_value = str(self._text_field_delay_between_clicks.value).replace(",", ".")
 
     def save_last_correct_delay_value(self) -> None:
         """
         Метод сохраняет текущее значение задержки между нажатиями из поля self._current_delay_value
         как последнее корректное значение задержки между нажатиями, приведя его к типу float
         """
-        self.last_correct_delay_value = float(self._current_delay_value)
+        self.last_correct_delay_value = float(self.current_delay_value)
 
     def set_last_correct_delay_value_in_field(self) -> None:
         """

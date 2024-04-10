@@ -2,47 +2,43 @@ import os
 import sys
 from collections import deque
 from enum import Enum, unique
-from typing import Optional, Union
-
-# Объявление типов
-DelayValueType = Union[float, int]
+from typing import Optional
 
 #
 # НАСТРОЙКИ ПРОГРАММЫ
 #
 
-VERSION = "0.1.0"
+# Версия программы для отображения
+VERSION: str = "0.1.0"
 
-DEVELOPER = "anovelforstudy"
+# Разработчик программы
+DEVELOPER: str = "anovelforstudy"
 
 #
 # НАСТРОЙКИ ОКНА
 #
 
-TITLE = "Flet Clicker"
+# Заголовок окна
+TITLE: str = "Flet Clicker"
 
 # Размеры окна
-WINDOW_HEIGHT = 500
-WINDOW_WIDTH = 360
-SWITCH_SIZES = True
-
-if SWITCH_SIZES:
-    WINDOW_HEIGHT, WINDOW_WIDTH = WINDOW_WIDTH, WINDOW_HEIGHT
+WINDOW_HEIGHT: int = 360
+WINDOW_WIDTH: int = 500
 
 #
 # СТАНДАРТНЫЕ НАСТРОЙКИ ФУНКЦИОНАЛА
 #
 
 # Значение на кнопках изменения значения погрешности рандомизации
-DEFAULT_INACCURACY_CHANGE_VALUE: DelayValueType = 0.05
-DEFAULT_INACCURACY_VALUE: DelayValueType = 0.5
+DEFAULT_INACCURACY_CHANGE_VALUE: float = 0.05
+DEFAULT_INACCURACY_VALUE: float = 0.5
 
 # Значение на кнопках изменения значения задержки между нажатиями
-DEFAULT_DELAY_BETWEEN_CLICKS_CHANGE_VALUE: DelayValueType = 0.05
-DEFAULT_DELAY_BETWEEN_CLICKS_VALUE: DelayValueType = 0.1
+DEFAULT_DELAY_BETWEEN_CLICKS_CHANGE_VALUE: float = 0.01
+DEFAULT_DELAY_BETWEEN_CLICKS_VALUE: float = 0.1
 
 # Значение задержки перед активацией кликера
-DEFAULT_DELAY_VALUE_BEFORE_CLICKER_START: DelayValueType = 0.5
+DEFAULT_DELAY_VALUE_BEFORE_CLICKER_START: float = 0.5
 
 #
 #  PAGE SETTINGS
@@ -57,32 +53,33 @@ class Pages(Enum):
     program_settings_page = 2
 
 
-# Page padding
-PAGE_PADDING_RIGHT = 0
-PAGE_PADDING_LEFT = 0
-PAGE_PADDING_TOP = 0
-PAGE_PADDING_BOTTOM = 0
+# Отступы на странице
+PAGE_PADDING_RIGHT: int = 0
+PAGE_PADDING_LEFT: int = 0
+PAGE_PADDING_TOP: int = 0
+PAGE_PADDING_BOTTOM: int = 0
 
 #
 # НАСТРОЙКИ БЛОКОВ ИНТЕРФЕЙСА
 #
 
 # Стандартный отступ внутри блока
-DEFAULT_BLOCK_PADDING = 5
-
-# Боковая панель
-SIDEBAR_ICONS_COLOR = "white"
+DEFAULT_BLOCK_PADDING: int = 5
 
 #
 # ЦВЕТА
 #
 
+# Основная цветовая схема окна
+COLOR_SCHEME_SEED = "blue"
+
 # SIDEBAR_COLOR = "#171717"
-SIDEBAR_COLOR = "#2A2A2A"
+SIDEBAR_COLOR: str = "#2A2A2A"
+SIDEBAR_ICONS_COLOR: str = "white"
 
-TOPBAR_COLOR = "#2A2A2A"
+TOPBAR_COLOR: str = "#2A2A2A"
 
-STATUSBAR_COLOR = "#2A2A2A"
+STATUSBAR_COLOR: str = "#2A2A2A"
 
 #
 # ФУНКЦИИ КОНФИГУРАЦИИ
